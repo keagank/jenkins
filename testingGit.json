@@ -1,0 +1,69 @@
+{
+    "pipeline": {
+        "roleArn": "arn:aws:iam::025544425497:role/AWS-CodePipeline-CodeBuild-Service-Role",
+        "stages": [
+            {
+                "name": "Source",
+                "actions": [
+                    {
+                        "inputArtifacts": [],
+                        "name": "Source",
+                        "actionTypeId": {
+                            "category": "Source",
+                            "owner": "ThirdParty",
+                            "version": "1",
+                            "provider": "GitHub"
+                        },
+                        "outputArtifacts": [
+                            {
+                                "name": "MyApp"
+                            }
+                        ],
+                        "configuration": {
+                            "Owner": "keagank",
+                            "Repo": "jenkins",
+                            "PollForSourceChanges": "false",
+                            "Branch": "master",
+                            "OAuthToken": "****"
+                        },
+                        "runOrder": 1
+                    }
+                ]
+            },
+            {
+                "name": "Build",
+                "actions": [
+                    {
+                        "inputArtifacts": [
+                            {
+                                "name": "MyApp"
+                            }
+                        ],
+                        "name": "CodeBuild",
+                        "actionTypeId": {
+                            "category": "Build",
+                            "owner": "AWS",
+                            "version": "1",
+                            "provider": "CodeBuild"
+                        },
+                        "outputArtifacts": [
+                            {
+                                "name": "MyAppBuild"
+                            }
+                        ],
+                        "configuration": {
+                            "ProjectName": "testing2"
+                        },
+                        "runOrder": 1
+                    }
+                ]
+            }
+        ],
+        "artifactStore": {
+            "type": "S3",
+            "location": "codepipeline-ap-southeast-2-386527364122"
+        },
+        "name": "testingGit",
+        "version": 1
+    }
+}
